@@ -1,12 +1,19 @@
 #!/usr/bin/env bash
 
+if [[ -z "$BASH_UTIL_CONFIG_LOADED" ]]; then
+  BASH_UTIL_CONFIG_LOADED=true
+fi
+
 if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
   # Try local first (for development)
   # Get the directory this script lives in (safe even if run from elsewhere)
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+  echo "SCRIPT_DIR = $SCRIPT_DIR"
   if [[ -f "$SCRIPT_DIR/log.sh" ]]; then
+    echo "Using source..."
     source "$SCRIPT_DIR/log.sh"
   else
+    echo "Using curl..."
     # Fall back to remote (for imports)
     BASH_UTIL_REPO="${BASH_UTIL_REPO:-BojanKomazec/bash-util}"
     BASH_UTIL_VERSION="${BASH_UTIL_VERSION:-main}"
