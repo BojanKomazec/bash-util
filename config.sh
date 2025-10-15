@@ -1,9 +1,10 @@
-# Get the directory this script lives in (safe even if run from elsewhere)
-SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
+    # Get the directory this script lives in (safe even if run from elsewhere)
+    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
-# Source the log file
-source "$SCRIPT_DIR/log.sh"
-
+    # Source the log file
+    source "$SCRIPT_DIR/log.sh"
+fi
 
 load_env_file() {
     local ENV_FILE="$1"

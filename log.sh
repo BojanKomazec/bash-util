@@ -1,3 +1,7 @@
+if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
+  BASH_UTIL_LOG_LOADED=true
+fi
+
 #
 # Logging functions
 #
