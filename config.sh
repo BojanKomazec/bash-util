@@ -1,9 +1,17 @@
-if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
-    # Get the directory this script lives in (safe even if run from elsewhere)
-    SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+#!/usr/bin/env bash
 
-    # Source the log file
+if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
+  # Try local first (for development)
+  # Get the directory this script lives in (safe even if run from elsewhere)
+  SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
+  if [[ -f "$SCRIPT_DIR/log.sh" ]]; then
     source "$SCRIPT_DIR/log.sh"
+  else
+    # Fall back to remote (for imports)
+    BASH_UTIL_REPO="${BASH_UTIL_REPO:-BojanKomazec/bash-util}"
+    BASH_UTIL_VERSION="${BASH_UTIL_VERSION:-main}"
+    source <(curl -fsSL "https://raw.githubusercontent.com/$BASH_UTIL_REPO/refs/heads/$BASH_UTIL_VERSION/log.sh")
+  fi
 fi
 
 load_env_file() {
