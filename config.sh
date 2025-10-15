@@ -10,11 +10,10 @@ if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
   echo "SCRIPT_DIR = $SCRIPT_DIR"
   if [[ -f "$SCRIPT_DIR/log.sh" ]]; then
-    echo "Using source..."
+    # If this file is loaded from this repo, it can use source to load its dependencies.
     source "$SCRIPT_DIR/log.sh"
   else
-    echo "Using curl..."
-    # Fall back to remote (for imports)
+    # If this file is loaded from another repo, it needs to use curl to load its dependencies.
     BASH_UTIL_REPO="${BASH_UTIL_REPO:-BojanKomazec/bash-util}"
     BASH_UTIL_VERSION="${BASH_UTIL_VERSION:-main}"
     source <(curl -fsSL "https://raw.githubusercontent.com/$BASH_UTIL_REPO/refs/heads/$BASH_UTIL_VERSION/log.sh")
