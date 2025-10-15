@@ -8,7 +8,7 @@ if [[ -z "$BASH_UTIL_LOG_LOADED" ]]; then
   # Try local first (for development)
   # Get the directory this script lives in (safe even if run from elsewhere)
   SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" 2>/dev/null && pwd)"
-  echo "SCRIPT_DIR = $SCRIPT_DIR"
+
   if [[ -f "$SCRIPT_DIR/log.sh" ]]; then
     # If this file is loaded from this repo, it can use source to load its dependencies.
     source "$SCRIPT_DIR/log.sh"
