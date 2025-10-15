@@ -7,6 +7,7 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Source the log file
 source "$SCRIPT_DIR/config.sh"
+source "$SCRIPT_DIR/cli.sh"
 
 # Enable info, debug and trace logging
 VERBOSE=true
@@ -28,6 +29,9 @@ main() {
 
     # Uncomment to test exit on error
     # log_error_and_exit "This is an error message with exit."
+
+    check_if_command_tool_is_available "ls"
+    check_if_command_tool_is_available "nonexistentcommand"
 
     echo "Script completed."
 }
