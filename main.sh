@@ -8,9 +8,36 @@ SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 # Source the log file
 source "$SCRIPT_DIR/config.sh"
 source "$SCRIPT_DIR/cli.sh"
+source "$SCRIPT_DIR/user_input.sh"
 
 # Enable info, debug and trace logging
 VERBOSE=true
+
+test_prompt_user_for_confirmation() {
+    local action="test"
+    local user_confirmed
+    user_confirmed=$(prompt_user_for_confirmation "❓ Do you want to proceed with '$action'?" "n")
+    if [[ "$user_confirmed" != "true" ]]; then
+        log_warning "Skipping action: $action"
+        log_empty_line
+        return
+    fi
+}
+
+test_prompt_user_for_confirmation_inside_while_loop() {
+    while read -r action; do
+        local user_confirmed
+        user_confirmed=$(prompt_user_for_confirmation "❓ Do you want to proceed with '$action'?" "n")
+        if [[ "$user_confirmed" == "true" ]]; then
+            log_info "Proceeding with action: $action"
+            log_empty_line
+        else
+            log_warning "Skipping action: $action"
+            log_empty_line
+        fi
+    done < <(printf "action1\naction2\naction3\n")
+    # done < <(echo -e "action1\naction2\naction3\n") # it passes an extra empty string as an action (!)
+}
 
 main() {
     load_env_file "$SCRIPT_DIR/.env.example"
@@ -32,6 +59,9 @@ main() {
 
     check_if_command_tool_is_available "ls"
     check_if_command_tool_is_available "nonexistentcommand"
+
+    # test_prompt_user_for_confirmation
+    test_prompt_user_for_confirmation_inside_while_loop
 
     echo "Script completed."
 }

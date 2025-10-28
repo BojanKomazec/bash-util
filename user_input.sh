@@ -19,7 +19,7 @@ prompt_user_for_confirmation() {
         # read -e -r answer
 
         # TODO: check if we need to use | xargs to remove leading and trailing spaces
-        read -e -r -p "$message (y/n) [default: $default_answer]: " answer
+        read -e -r -p "$message (y/n) [default: $default_answer]: " answer </dev/tty
         case $answer in
             [Yy] )
                 confirmed=true
